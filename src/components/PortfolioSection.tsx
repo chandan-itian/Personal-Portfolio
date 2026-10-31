@@ -5,6 +5,7 @@ import Image from "next/image";
 import { PORTFOLIO_DATA, Project } from "@/data/portfolioData";
 import { ExternalLink, BookOpen, X, Sparkles } from "lucide-react";
 import { GithubIcon } from "./Icons";
+import { getAssetPath } from "@/lib/utils";
 
 interface PortfolioSectionProps {
   initialCategory?: "all" | "web" | "app";
@@ -83,7 +84,7 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
                 <div className="relative w-full h-48 bg-stone-100 border-b border-stone-200 overflow-hidden">
                   {project.image ? (
                     <Image
-                      src={project.image}
+                      src={getAssetPath(project.image)}
                       alt={project.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 50vw"

@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
+import { getAssetPath } from "@/lib/utils";
 
 export function AboutSection() {
   const { heading, paragraphs, funFacts } = PORTFOLIO_DATA.about;
@@ -48,7 +49,7 @@ export function AboutSection() {
             <div className="bg-white p-4 pb-6 rounded-xl border border-stone-300 shadow-[0_6px_20px_rgba(0,0,0,0.06)] transform rotate-1 group-hover:rotate-0 transition-transform duration-300 max-w-[280px]">
               <div className="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-stone-100 border border-stone-200">
                 <Image
-                  src="/images/chandan.png"
+                  src={getAssetPath(PORTFOLIO_DATA.personal.avatar)}
                   alt="Chandan Raj enjoying a calm sunset view"
                   fill
                   sizes="(max-width: 768px) 280px, 320px"
