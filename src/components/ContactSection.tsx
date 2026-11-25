@@ -5,6 +5,7 @@ import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { Send, CheckCircle2, AlertCircle, Loader2, Mail, MapPin } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./Icons";
 import { Reveal } from "./fx/Reveal";
+import { Tilt } from "./fx/Tilt";
 
 interface FormState {
   name: string;
@@ -156,23 +157,25 @@ export function ContactSection() {
 
       </Reveal>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+      <div className="cards-scene grid grid-cols-1 md:grid-cols-12 gap-10">
         {/* Left Column: Direct Links & Info */}
         <div className="md:col-span-5 space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] space-y-4">
-            <h3 className="font-sans-clean text-lg font-bold text-stone-900">
+          <Tilt max={6}>
+          <div className="card-3d">
+          <div className="card-face bg-white p-6 rounded-2xl border border-stone-300 space-y-4">
+            <h3 className="z-title font-sans-clean text-lg font-bold text-stone-900">
               Direct Channels
             </h3>
             <p className="font-sans-clean text-xs text-stone-500 leading-relaxed">
               Prefer direct outreach? You can email me or connect through any of my public profiles below.
             </p>
 
-            <div className="space-y-3 pt-2">
+            <div className="pz space-y-3 pt-2">
               <a
                 href={`mailto:${directEmail}`}
-                className="flex items-center space-x-3 text-stone-700 hover:text-pink-600 transition-colors text-sm font-sans-clean group"
+                className="pz flex items-center space-x-3 text-stone-700 hover:text-pink-600 transition-colors text-sm font-sans-clean group"
               >
-                <div className="p-2 rounded-lg bg-[#F8CAD5]/50 group-hover:bg-[#F8CAD5] transition-colors">
+                <div className="z-icon p-2 rounded-lg bg-[#F8CAD5]/50 group-hover:bg-[#F8CAD5] transition-colors">
                   <Mail className="w-4 h-4 text-stone-900" />
                 </div>
                 <div>
@@ -181,8 +184,8 @@ export function ContactSection() {
                 </div>
               </a>
 
-              <div className="flex items-center space-x-3 text-stone-700 text-sm font-sans-clean">
-                <div className="p-2 rounded-lg bg-[#CCE7F9]/50">
+              <div className="pz flex items-center space-x-3 text-stone-700 text-sm font-sans-clean">
+                <div className="z-icon p-2 rounded-lg bg-[#CCE7F9]/50">
                   <MapPin className="w-4 h-4 text-stone-900" />
                 </div>
                 <div>
@@ -192,7 +195,7 @@ export function ContactSection() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-stone-100 flex items-center space-x-3">
+            <div className="z-body pt-4 border-t border-stone-100 flex items-center space-x-3">
               {socials.map((social) => (
                 <a
                   key={social.name}
@@ -206,7 +209,10 @@ export function ContactSection() {
                 </a>
               ))}
             </div>
+            <div className="card-glare" aria-hidden="true" />
           </div>
+          </div>
+          </Tilt>
 
           <div className="p-4 rounded-xl bg-[#F5F2EB]/80 border border-stone-200 text-xs font-sans-clean text-stone-600 leading-relaxed">
             <span className="font-bold text-stone-800 block mb-1">🔒 Privacy Note:</span>
@@ -216,10 +222,12 @@ export function ContactSection() {
 
         {/* Right Column: Contact Form */}
         <div className="md:col-span-7">
+          <Tilt max={4}>
+          <div className="card-3d">
           <form
             onSubmit={handleSubmit}
             noValidate
-            className="bg-white p-6 sm:p-8 rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] space-y-4"
+            className="card-face bg-white p-6 sm:p-8 rounded-2xl border border-stone-300 space-y-4"
           >
             {/* Honeypot field (hidden from real users, traps bots) */}
             <div className="hidden" aria-hidden="true">
@@ -393,6 +401,9 @@ export function ContactSection() {
               </button>
             </div>
           </form>
+          <div className="card-glare" aria-hidden="true" />
+          </div>
+          </Tilt>
         </div>
       </div>
     </section>

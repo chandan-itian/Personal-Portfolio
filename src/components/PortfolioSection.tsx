@@ -13,6 +13,16 @@ interface PortfolioSectionProps {
   initialCategory?: "all" | "web" | "app";
 }
 
+// AI-generated per-project logo marks (soft pastel, hand-drawn,
+// no text baked in). Shown at the top of each card with one
+// uniform treatment in every filter view.
+const PROJECT_LOGOS: Record<string, string> = {
+  "radioverse-india": "/images/logos/logo-radioverse-india.webp",
+  doctoolz: "/images/logos/logo-doctoolz.webp",
+  "my-edge-extension": "/images/logos/logo-my-edge-extension.webp",
+  "project-canvas-sketch": "/images/logos/logo-project-canvas-sketch.webp",
+};
+
 export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionProps) {
   const [selectedFilter, setSelectedFilter] = useState<"all" | "web" | "app">(initialCategory);
   const [activeProjectModal, setActiveProjectModal] = useState<Project | null>(null);
@@ -78,17 +88,26 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
           <p className="font-sans-clean text-stone-500">No projects found in this category yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="cards-scene grid grid-cols-1 md:grid-cols-2 gap-8">
           {filteredProjects.map((project, idx) => (
             <Reveal key={project.id} delay={(idx % 2) * 90} className="h-full">
-            <Tilt className="h-full" max={5}>
-            <div
-              className="h-full bg-white rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col justify-between group hover:border-pink-300 hover:shadow-[0_24px_44px_-16px_rgba(240,98,146,0.28)] transition-all duration-300"
-            >
-              <div>
-                {/* Preview Image / Placeholder Banner */}
-                <div className="relative w-full h-48 bg-stone-100 border-b border-stone-200 overflow-hidden">
-                  {project.image ? (
+            <Tilt className="h-full" max={8}>
+            <div className="card-3d h-full group">
+            <div className="card-face h-full bg-white rounded-2xl border border-stone-300 flex flex-col justify-between hover:border-pink-300 transition-colors duration-300">
+              <div className="pz">
+                {/* Project Logo Banner — one generated logo mark
+                    per project, uniform size/treatment */}
+                <div className="z-icon relative w-full h-48 bg-[#FAF3E3] border-b border-stone-200 overflow-hidden rounded-t-[15px]">
+                  {PROJECT_LOGOS[project.id] ? (
+                    <Image
+                      src={getAssetPath(PROJECT_LOGOS[project.id])}
+                      alt={project.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-contain p-5 group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                  ) : project.image ? (
                     <Image
                       src={getAssetPath(project.image)}
                       alt={project.title}
@@ -124,14 +143,14 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
+                <div className="pz p-6">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-sans-clean text-xs font-semibold uppercase tracking-wider text-pink-600">
                       {project.category === "web" ? "Web Application" : "App / Tooling"}
                     </span>
                   </div>
 
-                  <h3 className="font-sans-clean text-xl font-bold text-stone-900 group-hover:text-pink-600 transition-colors">
+                  <h3 className="z-title font-sans-clean text-xl font-bold text-stone-900 group-hover:text-pink-600 transition-colors">
                     {project.title}
                   </h3>
 
@@ -139,7 +158,7 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
                     {project.tagline}
                   </p>
 
-                  <p className="font-sans-clean text-sm text-stone-600 leading-relaxed mb-4 line-clamp-3">
+                  <p className="z-body font-sans-clean text-sm text-stone-600 leading-relaxed mb-4 line-clamp-3">
                     {project.description}
                   </p>
 
@@ -158,7 +177,7 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
               </div>
 
               {/* Bottom Actions */}
-              <div className="p-6 pt-0 flex items-center justify-between border-t border-stone-100 mt-2">
+              <div className="z-body p-6 pt-0 flex items-center justify-between border-t border-stone-100 mt-2">
                 <button
                   type="button"
                   onClick={() => setActiveProjectModal(project)}
@@ -194,6 +213,8 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
                   )}
                 </div>
               </div>
+              <div className="card-glare" aria-hidden="true" />
+            </div>
             </div>
             </Tilt>
             </Reveal>

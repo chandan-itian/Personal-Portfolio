@@ -3,6 +3,7 @@ import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { Briefcase, MapPin, Calendar, CheckCircle } from "lucide-react";
 import { GithubIcon } from "./Icons";
 import { Reveal } from "./fx/Reveal";
+import { Tilt } from "./fx/Tilt";
 
 export function ExperienceSection() {
   const experiences = PORTFOLIO_DATA.experience;
@@ -32,7 +33,7 @@ export function ExperienceSection() {
       </Reveal>
 
       {/* Lightweight Vertical Timeline */}
-      <div className="relative pl-6 sm:pl-8 border-l-2 border-dashed border-stone-300 ml-4 sm:ml-8 space-y-12">
+      <div className="cards-scene relative pl-6 sm:pl-8 border-l-2 border-dashed border-stone-300 ml-4 sm:ml-8 space-y-12">
         {experiences.map((exp, idx) => (
           <Reveal key={idx} delay={idx * 80}>
           <div className="relative group">
@@ -45,11 +46,13 @@ export function ExperienceSection() {
             </div>
 
             {/* Experience Card */}
-            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:border-pink-300 hover:shadow-[0_20px_36px_-14px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 transition-all duration-300">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-4 mb-4">
-                <div>
+            <Tilt max={7}>
+            <div className="card-3d">
+            <div className="card-face bg-white p-6 sm:p-8 rounded-2xl border border-stone-300 hover:border-pink-300 transition-colors duration-300">
+              <div className="pz flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-4 mb-4">
+                <div className="pz">
                   <div className="flex items-center space-x-2">
-                    <h3 className="font-sans-clean text-xl sm:text-2xl font-bold text-stone-900">
+                    <h3 className="z-title font-sans-clean text-xl sm:text-2xl font-bold text-stone-900">
                       {exp.role}
                     </h3>
                     {exp.isCurrent && (
@@ -59,7 +62,7 @@ export function ExperienceSection() {
                     )}
                   </div>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs sm:text-sm font-sans-clean text-stone-600 mt-1">
-                    <span className="font-semibold text-stone-800 flex items-center space-x-1">
+                    <span className="z-icon font-semibold text-stone-800 flex items-center space-x-1">
                       <Briefcase className="w-3.5 h-3.5 text-pink-500" />
                       <span>{exp.company}</span>
                     </span>
@@ -79,12 +82,12 @@ export function ExperienceSection() {
               </div>
 
               {/* Summary */}
-              <p className="font-sans-clean text-sm sm:text-[15px] text-stone-700 leading-relaxed mb-4">
+              <p className="z-body font-sans-clean text-sm sm:text-[15px] text-stone-700 leading-relaxed mb-4">
                 {exp.summary}
               </p>
 
               {/* Core Responsibilities */}
-              <div className="mb-4">
+              <div className="z-body mb-4">
                 <h4 className="font-sans-clean text-xs uppercase tracking-wider font-bold text-stone-500 mb-2">
                   Key Focus &amp; Contributions
                 </h4>
@@ -129,7 +132,10 @@ export function ExperienceSection() {
                   </a>
                 )}
               </div>
+              <div className="card-glare" aria-hidden="true" />
             </div>
+            </div>
+            </Tilt>
           </div>
           </Reveal>
         ))}

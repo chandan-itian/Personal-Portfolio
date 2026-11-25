@@ -97,24 +97,23 @@ export function SkillsSection() {
       </div>
 
       {/* Four Category Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="cards-scene grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {filteredCategories.map((category, idx) => (
           <Reveal key={category.title} delay={(idx % 4) * 100} className="h-full">
-          <Tilt className="h-full" max={5}>
-          <div
-            className="h-full flex flex-col bg-white rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] overflow-hidden transition-transform duration-200 hover:-translate-y-1 hover:shadow-[0_20px_36px_-14px_rgba(0,0,0,0.16)]"
-          >
+          <Tilt className="h-full" max={8}>
+          <div className="card-3d h-full">
+          <div className="card-face h-full flex flex-col bg-white rounded-2xl border border-stone-300">
             {/* Soft Pastel Header */}
             <div
-              className={`p-5 border-b ${getBgHeaderColor(
+              className={`pz p-5 border-b rounded-t-[15px] ${getBgHeaderColor(
                 category.markerColor
               )} flex items-center space-x-3`}
             >
-              <div className="p-2 rounded-lg bg-white/80 shadow-xs">
+              <div className="z-icon p-2 rounded-lg bg-white/80 shadow-xs">
                 {getIcon(category.title)}
               </div>
-              <div>
-                <h3 className="font-sans-clean font-bold text-stone-900 text-base leading-tight">
+              <div className="pz">
+                <h3 className="z-title font-sans-clean font-bold text-stone-900 text-base leading-tight">
                   {category.title}
                 </h3>
                 <p className="font-sans-clean text-xs text-stone-600 mt-0.5 line-clamp-1">
@@ -124,7 +123,7 @@ export function SkillsSection() {
             </div>
 
             {/* Skills List */}
-            <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+            <div className="z-body p-5 flex-1 flex flex-col justify-between space-y-3">
               <ul className="space-y-3" role="list">
                 {category.skills.map((skill) => (
                   <li
@@ -143,13 +142,9 @@ export function SkillsSection() {
                   </li>
                 ))}
               </ul>
-
-              <div className="pt-3 border-t border-stone-100 text-right">
-                <span className="font-handwriting text-xs text-stone-400">
-                  editable in portfolioData.ts
-                </span>
-              </div>
             </div>
+            <div className="card-glare" aria-hidden="true" />
+          </div>
           </div>
           </Tilt>
           </Reveal>

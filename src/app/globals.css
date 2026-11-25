@@ -1,5 +1,13 @@
 @import "tailwindcss";
 
+/* Site-wide handwritten body text: the default sans stack now
+   resolves to Patrick Hand, matching the hand-drawn treatment
+   used at the top of the site. Display headings keep using
+   Caveat via .font-handwriting. */
+@theme {
+  --font-sans: var(--font-patrick-hand), cursive;
+}
+
 @layer base {
   :root {
     --background: #FDFBF7;
@@ -20,8 +28,13 @@
   font-family: var(--font-patrick-hand), cursive;
 }
 
+/* Historically the clean sans (DM Sans) body font. Per the
+   site-wide handwritten restyle, every use of this utility —
+   body copy, labels, buttons, tags, cards, forms — now renders
+   in Patrick Hand, the site's handwritten body font, so the
+   whole page matches the hand-drawn style of the hero. */
 .font-sans-clean {
-  font-family: var(--font-dm-sans), sans-serif;
+  font-family: var(--font-patrick-hand), cursive;
 }
 
 /* Marker highlight effect like in reference screenshot */
@@ -166,12 +179,15 @@ select:focus-visible {
     transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
-/* 3D pointer tilt (see fx/Tilt.tsx) */
+/* 3D pointer tilt (see fx/Tilt.tsx) — rotation is eased in JS
+   (lerp toward the pointer target, spring-back on leave), so no
+   CSS transition here; touch-action keeps vertical scrolling
+   over cards undisturbed on touch devices. */
 .tilt {
   transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
-  transition: transform 0.3s ease;
   transform-style: preserve-3d;
   will-change: transform;
+  touch-action: pan-y;
 }
 
 @media (hover: none), (prefers-reduced-motion: reduce) {
@@ -360,6 +376,220 @@ select:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .star-bubble {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* Gentle float for the About polaroid photo — same motion
+   language as the brand badge float (badge-float above):
+   a soft bob with a hint of rotation. Treatment only: the
+   photo, its frame and the washi tape are unchanged. */
+.photo-float {
+  animation: photo-float 6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes photo-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(-0.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-float {
+    animation: none;
+    transform: none;
+  }
+}
+
+/* 3D depth for the About polaroid frame — CORNER-BORDER led,
+   per the user's refinement: pronounced corner edges do the
+   framing work (see the shared corner treatment below), with
+   only one soft NEUTRAL warm-stone shadow and a light inset
+   bevel for thickness. No pink, no glow, nothing busy.
+   Replaces the frame's old flat shadow entirely. */
+.photo-frame-3d {
+  box-shadow:
+    0 16px 24px -12px rgba(64, 52, 44, 0.32),
+    0 4px 8px -4px rgba(64, 52, 44, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    inset 0 -2px 3px rgba(64, 52, 44, 0.08);
+}
+
+/* Shared corner-border treatment for framed elements (About
+   photo frame + all cards): four pronounced corner brackets
+   drawn with layered gradients — horizontal + vertical stubs
+   at each corner, in a deep warm-stone tone. This is the main
+   depth device; shadows stay single and soft. */
+.card-face,
+.photo-frame-3d {
+  background-image:
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55)),
+    linear-gradient(rgba(64, 52, 44, 0.55), rgba(64, 52, 44, 0.55));
+  background-size:
+    26px 3px, 3px 26px,
+    26px 3px, 3px 26px,
+    26px 3px, 3px 26px,
+    26px 3px, 3px 26px;
+  background-position:
+    0 0, 0 0,
+    100% 0, 100% 0,
+    0 100%, 0 100%,
+    100% 100%, 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/* === Professional 3D card system (Core Capabilities, Projects,
+   Contributions & Roles, Get in Touch) ===
+   STATIC depth first, so a card reads as a physical object at
+   rest: two paper sheets peek out beneath the face (down-right,
+   progressively deeper warm-paper shades, sitting at negative Z
+   in the card's own 3D space) plus a soft multi-layer shadow on
+   the face. The corner brackets above stay on .card-face as the
+   hand-drawn framing. Inside, .z-icon / .z-title / .z-body park
+   content at different depths so the pointer tilt (fx/Tilt.tsx)
+   reveals true parallax. Traps avoided on purpose: no
+   overflow / filter / opacity on the preserve-3d elements —
+   clipping lives on inner wrappers (e.g. the project banner). */
+.cards-scene {
+  perspective: 1200px;
+}
+
+.card-3d {
+  position: relative;
+  transform-style: preserve-3d;
+  border-radius: 1rem;
+  transition: transform 0.35s ease;
+}
+
+.card-3d::before,
+.card-3d::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(64, 52, 44, 0.16);
+  pointer-events: none;
+}
+
+/* Sheet 1 — directly under the face */
+.card-3d::before {
+  background: #efe7d7;
+  transform: translate3d(5px, 6px, -12px);
+}
+
+/* Sheet 2 — deepest, peeks out the furthest */
+.card-3d::after {
+  background: #e0d2b8;
+  transform: translate3d(10px, 12px, -24px);
+}
+
+.card-face {
+  position: relative;
+  transform-style: preserve-3d;
+  box-shadow:
+    0 1px 2px rgba(64, 52, 44, 0.06),
+    0 4px 10px rgba(64, 52, 44, 0.06),
+    0 14px 26px -10px rgba(64, 52, 44, 0.16),
+    0 26px 44px -18px rgba(64, 52, 44, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: box-shadow 0.35s ease;
+}
+
+/* Intermediate wrappers inside a card that must pass the 3D
+   space through to their depth-layered children */
+.pz {
+  transform-style: preserve-3d;
+}
+
+/* Inner depth layers (parallax under tilt) */
+.z-icon {
+  transform: translateZ(40px);
+}
+
+.z-title {
+  transform: translateZ(25px);
+}
+
+.z-body {
+  transform: translateZ(12px);
+}
+
+/* Pointer-follow light glare, only ever visible on fine pointers */
+.card-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, 0.6),
+    rgba(255, 255, 255, 0) 65%
+  );
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  transform: translateZ(55px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .card-3d:hover {
+    transform: translateZ(12px);
+  }
+
+  .card-3d:hover .card-face {
+    box-shadow:
+      0 2px 3px rgba(64, 52, 44, 0.07),
+      0 8px 16px rgba(64, 52, 44, 0.08),
+      0 22px 36px -12px rgba(64, 52, 44, 0.22),
+      0 38px 60px -22px rgba(64, 52, 44, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .card-3d:hover .card-glare {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-3d {
+    transition: none;
+  }
+
+  .card-glare {
+    display: none;
+  }
+}
+
+/* Gentle float for the name caption inside the polaroid frame.
+   Small amplitude so the caption drifts within its own frame
+   without touching the photo above it. */
+.caption-float {
+  animation: caption-float 5s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes caption-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caption-float {
     animation: none;
     transform: none;
   }
