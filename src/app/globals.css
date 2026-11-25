@@ -290,6 +290,49 @@ select:focus-visible {
   }
 }
 
+/* Floating 3D brand badge — the pink watercolor "Chandan Raj"
+   badge gently floats with a deep, soft lifted shadow.
+   Treatment only: the pink wash, lettering, font and colors
+   are unchanged. */
+.badge-stage {
+  transition: transform 0.35s ease;
+  transform-style: preserve-3d;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .badge-stage:hover {
+    transform: perspective(800px) rotateX(4deg) rotateY(-5deg);
+  }
+}
+
+.badge-float {
+  animation: badge-float 5.5s ease-in-out infinite;
+  filter:
+    drop-shadow(0 6px 8px rgba(239, 112, 146, 0.28))
+    drop-shadow(0 18px 22px rgba(239, 112, 146, 0.2));
+  will-change: transform;
+}
+
+@keyframes badge-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.6deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-float {
+    animation: none;
+    transform: none;
+  }
+  .badge-stage {
+    transform: none;
+    transition: none;
+  }
+}
+
 /* Gentle float for the hero doodle stars */
 @keyframes floaty {
   0%, 100% {

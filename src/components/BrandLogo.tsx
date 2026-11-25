@@ -12,9 +12,9 @@ export function BrandLogo({ className = "" }: BrandLogoProps) {
       className={`group inline-block focus:outline-none transition-transform hover:scale-[1.02] active:scale-[0.99] ${className}`}
       aria-label="Chandan Raj — Return to top of portfolio"
     >
-      <div className="relative flex items-center justify-center p-3 sm:p-5">
+      <div className="badge-stage relative flex items-center justify-center p-3 sm:p-5">
         {/* Organic watercolor background badge using SVG with irregular paper/paint edges */}
-        <div className="relative w-[280px] sm:w-[360px] h-[105px] sm:h-[125px] flex items-center justify-center">
+        <div className="badge-float relative w-[280px] sm:w-[360px] h-[105px] sm:h-[125px] flex items-center justify-center">
           <svg
             className="absolute inset-0 w-full h-full drop-shadow-sm filter contrast-105"
             viewBox="0 0 360 130"
