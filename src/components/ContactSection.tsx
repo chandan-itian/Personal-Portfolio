@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { Send, CheckCircle2, AlertCircle, Loader2, Mail, MapPin } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "./Icons";
+import { Reveal } from "./fx/Reveal";
 
 interface FormState {
   name: string;
@@ -137,6 +138,7 @@ export function ContactSection() {
       className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 scroll-mt-20 border-t border-stone-200/50"
       aria-labelledby="contact-heading"
     >
+      <Reveal>
       <div className="text-center mb-12 sm:mb-16">
         <span className="font-sans-clean text-xs uppercase tracking-[0.25em] text-stone-500 font-semibold block mb-2">
           GET IN TOUCH
@@ -151,6 +153,8 @@ export function ContactSection() {
           {subheading}
         </p>
       </div>
+
+      </Reveal>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
         {/* Left Column: Direct Links & Info */}

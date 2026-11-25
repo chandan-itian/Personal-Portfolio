@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { Layout, Server, GitBranch, CheckCircle2, Bot } from "lucide-react";
+import { Reveal } from "./fx/Reveal";
+import { Tilt } from "./fx/Tilt";
 
 export function SkillsSection() {
   const skillCategories = PORTFOLIO_DATA.skills;
@@ -51,6 +53,7 @@ export function SkillsSection() {
       className="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 scroll-mt-20 border-t border-stone-200/50"
       aria-labelledby="skills-heading"
     >
+      <Reveal>
       <div className="text-center mb-10 sm:mb-14">
         <span className="font-sans-clean text-xs uppercase tracking-[0.25em] text-stone-500 font-semibold block mb-2">
           CORE CAPABILITIES
@@ -65,6 +68,8 @@ export function SkillsSection() {
           Full-stack engineering, intelligent AI workflows, and disciplined systems architecture.
         </p>
       </div>
+
+      </Reveal>
 
       {/* Filter Tabs */}
       <div className="flex flex-wrap justify-center gap-2 mb-10">
@@ -93,10 +98,11 @@ export function SkillsSection() {
 
       {/* Four Category Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {filteredCategories.map((category) => (
+        {filteredCategories.map((category, idx) => (
+          <Reveal key={category.title} delay={(idx % 4) * 100} className="h-full">
+          <Tilt className="h-full" max={5}>
           <div
-            key={category.title}
-            className="flex flex-col bg-white rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] overflow-hidden transition-transform duration-200 hover:-translate-y-1"
+            className="h-full flex flex-col bg-white rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] overflow-hidden transition-transform duration-200 hover:-translate-y-1 hover:shadow-[0_20px_36px_-14px_rgba(0,0,0,0.16)]"
           >
             {/* Soft Pastel Header */}
             <div
@@ -145,6 +151,8 @@ export function SkillsSection() {
               </div>
             </div>
           </div>
+          </Tilt>
+          </Reveal>
         ))}
       </div>
     </section>

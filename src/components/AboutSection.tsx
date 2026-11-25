@@ -2,6 +2,8 @@ import React from "react";
 import Image from "next/image";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { getAssetPath } from "@/lib/utils";
+import { Reveal } from "./fx/Reveal";
+import { Tilt } from "./fx/Tilt";
 
 export function AboutSection() {
   const { heading, paragraphs, funFacts } = PORTFOLIO_DATA.about;
@@ -12,6 +14,7 @@ export function AboutSection() {
       className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 scroll-mt-20 border-t border-stone-200/50"
       aria-labelledby="about-heading"
     >
+      <Reveal>
       <div className="text-center mb-12 sm:mb-16">
         <span className="font-sans-clean text-xs uppercase tracking-[0.25em] text-stone-500 font-semibold block mb-2">
           ABOUT ME
@@ -35,9 +38,12 @@ export function AboutSection() {
         </div>
       </div>
 
+      </Reveal>
+
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-center">
         {/* Authentic Photo in a Handcrafted Polaroid Frame */}
-        <div className="md:col-span-5 flex justify-center">
+        <Reveal variant="zoom" className="md:col-span-5 flex justify-center">
+          <Tilt max={7}>
           <div className="relative group">
             {/* Washi tape sticker */}
             <div
@@ -67,7 +73,8 @@ export function AboutSection() {
               </div>
             </div>
           </div>
-        </div>
+          </Tilt>
+        </Reveal>
 
         {/* Narrative Editorial Copy */}
         <div className="md:col-span-7 space-y-5">
@@ -83,9 +90,9 @@ export function AboutSection() {
           {/* Quick Highlight Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
             {funFacts.map((fact, idx) => (
+              <Reveal key={idx} delay={idx * 70} className="h-full">
               <div
-                key={idx}
-                className="p-3.5 rounded-xl bg-white/70 border border-stone-200/80 shadow-[0_2px_6px_rgba(0,0,0,0.02)]"
+                className="h-full p-3.5 rounded-xl bg-white/70 border border-stone-200/80 shadow-[0_2px_6px_rgba(0,0,0,0.02)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-10px_rgba(0,0,0,0.14)]"
               >
                 <span className="block font-sans-clean text-[11px] uppercase tracking-wider text-stone-400 font-semibold">
                   {fact.label}
@@ -94,6 +101,7 @@ export function AboutSection() {
                   {fact.value}
                 </span>
               </div>
+              </Reveal>
             ))}
           </div>
         </div>

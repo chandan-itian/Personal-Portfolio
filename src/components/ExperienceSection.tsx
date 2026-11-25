@@ -2,6 +2,7 @@ import React from "react";
 import { PORTFOLIO_DATA } from "@/data/portfolioData";
 import { Briefcase, MapPin, Calendar, CheckCircle } from "lucide-react";
 import { GithubIcon } from "./Icons";
+import { Reveal } from "./fx/Reveal";
 
 export function ExperienceSection() {
   const experiences = PORTFOLIO_DATA.experience;
@@ -12,6 +13,7 @@ export function ExperienceSection() {
       className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 scroll-mt-20 border-t border-stone-200/50"
       aria-labelledby="experience-heading"
     >
+      <Reveal>
       <div className="text-center mb-12 sm:mb-16">
         <span className="font-sans-clean text-xs uppercase tracking-[0.25em] text-stone-500 font-semibold block mb-2">
           CONTRIBUTIONS &amp; ROLES
@@ -27,10 +29,13 @@ export function ExperienceSection() {
         </p>
       </div>
 
+      </Reveal>
+
       {/* Lightweight Vertical Timeline */}
       <div className="relative pl-6 sm:pl-8 border-l-2 border-dashed border-stone-300 ml-4 sm:ml-8 space-y-12">
         {experiences.map((exp, idx) => (
-          <div key={idx} className="relative group">
+          <Reveal key={idx} delay={idx * 80}>
+          <div className="relative group">
             {/* Timeline Hand-Drawn Node Dot */}
             <div
               className="absolute -left-[35px] sm:-left-[43px] top-1.5 w-6 h-6 rounded-full bg-[#F8CAD5] border-2 border-stone-800 flex items-center justify-center shadow-xs group-hover:scale-125 transition-transform"
@@ -40,7 +45,7 @@ export function ExperienceSection() {
             </div>
 
             {/* Experience Card */}
-            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:border-pink-300 transition-colors">
+            <div className="bg-white p-6 sm:p-8 rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:border-pink-300 hover:shadow-[0_20px_36px_-14px_rgba(0,0,0,0.16)] hover:-translate-y-0.5 transition-all duration-300">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-4 mb-4">
                 <div>
                   <div className="flex items-center space-x-2">
@@ -126,6 +131,7 @@ export function ExperienceSection() {
               </div>
             </div>
           </div>
+          </Reveal>
         ))}
       </div>
     </section>

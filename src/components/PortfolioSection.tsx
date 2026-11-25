@@ -6,6 +6,8 @@ import { PORTFOLIO_DATA, Project } from "@/data/portfolioData";
 import { ExternalLink, BookOpen, X, Sparkles } from "lucide-react";
 import { GithubIcon } from "./Icons";
 import { getAssetPath } from "@/lib/utils";
+import { Reveal } from "./fx/Reveal";
+import { Tilt } from "./fx/Tilt";
 
 interface PortfolioSectionProps {
   initialCategory?: "all" | "web" | "app";
@@ -28,6 +30,7 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
       className="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 scroll-mt-20 border-t border-stone-200/50"
       aria-labelledby="portfolio-heading"
     >
+      <Reveal>
       <div className="text-center mb-10 sm:mb-14">
         <span className="font-sans-clean text-xs uppercase tracking-[0.25em] text-stone-500 font-semibold block mb-2">
           EXPLORATIONS &amp; WORK
@@ -67,6 +70,8 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
         </div>
       </div>
 
+      </Reveal>
+
       {/* Projects Grid */}
       {filteredProjects.length === 0 ? (
         <div className="text-center py-16 bg-white/60 rounded-2xl border border-dashed border-stone-300">
@@ -74,10 +79,11 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredProjects.map((project) => (
+          {filteredProjects.map((project, idx) => (
+            <Reveal key={project.id} delay={(idx % 2) * 90} className="h-full">
+            <Tilt className="h-full" max={5}>
             <div
-              key={project.id}
-              className="bg-white rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col justify-between group hover:border-pink-300 transition-all duration-300"
+              className="h-full bg-white rounded-2xl border border-stone-300 shadow-[0_4px_16px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col justify-between group hover:border-pink-300 hover:shadow-[0_24px_44px_-16px_rgba(240,98,146,0.28)] transition-all duration-300"
             >
               <div>
                 {/* Preview Image / Placeholder Banner */}
@@ -189,6 +195,8 @@ export function PortfolioSection({ initialCategory = "all" }: PortfolioSectionPr
                 </div>
               </div>
             </div>
+            </Tilt>
+            </Reveal>
           ))}
         </div>
       )}

@@ -11,6 +11,7 @@ import { PortfolioSection } from "@/components/PortfolioSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
 import { ContactSection } from "@/components/ContactSection";
 import { Footer } from "@/components/Footer";
+import { Reveal } from "@/components/fx/Reveal";
 
 export default function Home() {
   const [projectCategory, setProjectCategory] = useState<"all" | "web" | "app">("all");
@@ -20,7 +21,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FDFBF7] text-[#1E1E1E] selection:bg-[#F8C3D1] selection:text-[#1E1E1E]">
+    <div className="min-h-screen flex flex-col overflow-x-clip bg-[#FDFBF7] text-[#1E1E1E] selection:bg-[#F8C3D1] selection:text-[#1E1E1E]">
       {/* Top Anchor */}
       <div id="top" tabIndex={-1} aria-hidden="true" />
 
@@ -38,7 +39,9 @@ export default function Home() {
         <HeroSection />
 
         {/* Four Interactive Illustrated Circles */}
-        <InteractiveCircles onSelectProjectCategory={handleSelectProjectCategory} />
+        <Reveal>
+          <InteractiveCircles onSelectProjectCategory={handleSelectProjectCategory} />
+        </Reveal>
 
         {/* About Section */}
         <AboutSection />
@@ -53,7 +56,9 @@ export default function Home() {
         <ExperienceSection />
 
         {/* Contact Section */}
-        <ContactSection />
+        <Reveal>
+          <ContactSection />
+        </Reveal>
       </main>
 
       {/* Footer */}

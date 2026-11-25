@@ -135,8 +135,182 @@ select:focus-visible {
   transform-origin: center;
 }
 
+/* -----------------------------------------------
+   Enhancement layer: 3D depth + animation polish
+   (added around the existing handcrafted style —
+   typography, marker highlights and palette are
+   intentionally left untouched)
+   ----------------------------------------------- */
+
+/* Scroll reveal — armed only by JS after mount, so
+   content is visible by default and can never be
+   stuck invisible if JavaScript fails. */
+.reveal-armed {
+  opacity: 0;
+  transform: translateY(26px);
+}
+
+.reveal-armed.reveal-var-fade {
+  transform: none;
+}
+
+.reveal-armed.reveal-var-zoom {
+  transform: scale(0.96);
+}
+
+.reveal-armed.reveal-in {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* 3D pointer tilt (see fx/Tilt.tsx) */
+.tilt {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.3s ease;
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+@media (hover: none), (prefers-reduced-motion: reduce) {
+  .tilt {
+    transform: none;
+  }
+}
+
+/* Hero entrance — pure CSS, ends fully visible */
+@keyframes hero-up {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-enter {
+  animation: hero-up 0.8s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+.hero-enter-delay {
+  animation-delay: 0.15s;
+}
+
+/* Watercolor hero blobs — slow, soft drift */
+.hero-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(56px);
+  opacity: 0.55;
+}
+
+.hero-blob-a {
+  width: 340px;
+  height: 340px;
+  top: -70px;
+  left: -60px;
+  animation: blob-drift-a 16s ease-in-out infinite;
+}
+
+.hero-blob-b {
+  width: 280px;
+  height: 280px;
+  top: 30px;
+  right: -50px;
+  animation: blob-drift-b 19s ease-in-out infinite;
+}
+
+.hero-blob-c {
+  width: 240px;
+  height: 240px;
+  bottom: -90px;
+  left: 38%;
+  animation: blob-drift-a 22s ease-in-out infinite reverse;
+}
+
+@keyframes blob-drift-a {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(34px, -22px) scale(1.08);
+  }
+}
+
+@keyframes blob-drift-b {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-28px, 20px) scale(1.06);
+  }
+}
+
+/* Floating 3D hero name — depth + animation treatment
+   only; the font, letterforms and color are unchanged. */
+.name-3d-stage {
+  perspective: 600px;
+}
+
+.name-3d {
+  display: inline-block;
+  transform-style: preserve-3d;
+  animation: name-sway 7s ease-in-out infinite;
+}
+
+.name-3d-letter {
+  display: inline-block;
+  animation: name-float 3.6s ease-in-out infinite;
+  text-shadow:
+    1px 1px 0 #f8cad5,
+    2px 2px 0 #f5a1b8,
+    3px 3px 0 rgba(240, 98, 146, 0.55),
+    6px 12px 18px rgba(240, 98, 146, 0.22);
+}
+
+@keyframes name-float {
+  0%, 100% {
+    transform: translateY(0) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-7px) rotateX(6deg) rotateY(-6deg);
+  }
+}
+
+@keyframes name-sway {
+  0%, 100% {
+    transform: rotateX(4deg) rotateY(-3deg);
+  }
+  50% {
+    transform: rotateX(-3deg) rotateY(4deg);
+  }
+}
+
+/* Gentle float for the hero doodle stars */
+@keyframes floaty {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(10deg);
+  }
+}
+
+.animate-floaty {
+  display: inline-block;
+  animation: floaty 5s ease-in-out infinite;
+}
+
 /* Reduce motion */
 @media (prefers-reduced-motion: reduce) {
+  .reveal-armed {
+    opacity: 1;
+    transform: none;
+  }
   *, ::before, ::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
